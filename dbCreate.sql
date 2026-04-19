@@ -1,6 +1,6 @@
 
 -- creates all the tables for the database (note that this doesn't create the database itself)
-CREATE TABLE users(
+CREATE TABLE IF NOT EXISTS users(
 	user_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	email VARCHAR(250) NOT NULL UNIQUE,
 	password TEXT NOT NULL,
@@ -12,7 +12,7 @@ CREATE TABLE users(
 	longitude DECIMAL(3,2) NOT NULL
 );
 
-CREATE TABLE item_tree(
+CREATE TABLE IF NOT EXISTS item_tree(
 	item_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	item_name VARCHAR(50) NOT NULL,
 	parent_id uuid,
@@ -23,7 +23,7 @@ CREATE TABLE item_tree(
 );
 
 
-CREATE TABLE notifications(
+CREATE TABLE IF NOT EXISTS notifications(
 	notifcation_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	user_id uuid,
 	content TEXT NOT NULL,
@@ -36,7 +36,7 @@ CREATE TABLE notifications(
 );
 
 
-CREATE TABLE items_donor(
+CREATE TABLE IF NOT EXISTS items_donor(
 	item_code uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	donor uuid NOT NULL,
 	item_class uuid NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE items_donor(
 );
 
 
-CREATE TABLE requests(
+CREATE TABLE IF NOT EXISTS requests(
 	request_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	donee uuid NOT NULL,
 	items_donor uuid NOT NULL,
@@ -70,7 +70,7 @@ CREATE TABLE requests(
 );
 
 
-CREATE TABLE general_requests(
+CREATE TABLE IF NOT EXISTS general_requests(
 	donee uuid,
 	items_class uuid,
 	qty INTEGER NOT NULL,
@@ -86,9 +86,9 @@ CREATE TABLE general_requests(
 	PRIMARY KEY(donee, items_class)
 );
 
-CREATE TABLE session_keys (
-	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid();
-	user_id uuid;
+CREATE TABLE IF NOT EXISTS session_keys (
+	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	user_id uuid,
 
 	CONSTRAINT fk_user_id
 		FOREIGN KEY (user_id)
