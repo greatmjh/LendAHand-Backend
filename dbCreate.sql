@@ -86,5 +86,12 @@ CREATE TABLE general_requests(
 	PRIMARY KEY(donee, items_class)
 );
 
+CREATE TABLE session_keys (
+	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid();
+	user_id uuid;
 
+	CONSTRAINT fk_user_id
+		FOREIGN KEY (user_id)
+		REFERENCES users(user_id)
+);
 
