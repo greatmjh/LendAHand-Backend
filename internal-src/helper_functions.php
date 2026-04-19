@@ -1,6 +1,6 @@
 <?php
 /* 
-This file contains functions you can call to send error codes or empty response codes
+This section contains functions you can call to send error codes or empty response codes
 to the client, say a 400 Unauthorised code or a 204 No Content code.
 
 NB: These functions all terminate execution as they are run
@@ -28,6 +28,22 @@ function exit_internal_error($message = "Internal server error") {
     http_response_code(500);
     echo $message;
     exit();
+}
+
+// Validation mathods (TODO: flesh them out):
+
+function validatePhoneNumber($phoneNumber) {
+    if (is_null($phoneNumber)) {
+        return false;
+    }
+
+    if (strlen($phoneNumber) > 15) {
+        return false;
+    }
+
+    //TODO: bring in validation to make sure this is an actual phone number
+
+    return true;
 }
 ?>
 

@@ -2,8 +2,7 @@
 //These are classes that are used more than once in the API spec. If they are also used as inputs, a JSON constructor
 //is included which return null if the json is wrong.
 
-require(__DIR__."/../internal-src/exit_codes.php");
-require(__DIR__."/../internal-src/validation.php");
+require(__DIR__."/../internal-src/helper_functions.php");
 
 class apiLogInResponse {
     public $success;
