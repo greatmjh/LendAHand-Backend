@@ -3,10 +3,10 @@
 
 // Database connection details -- edit here:
 //$pg_ip = "127.0.0.1";
-//$pg_port = 5432
-//$pg_user = "user"
-//$pg_password = "changeme"
-//$pg_dbname = "lendahand"
+//$pg_port = 5432;
+//$pg_user = "user";
+//$pg_password = "changeme";
+//$pg_dbname = "lendahand";
 
 
 // Leave this alone:
