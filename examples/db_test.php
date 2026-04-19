@@ -1,5 +1,5 @@
 <?php
-require(__DIR__."/../internal-src/constants.php"); //how to bring in the constants file
+require_once(__DIR__."/../internal-src/constants.php"); //how to bring in the constants file
 
 $dbh = new PDO(DB_INFO); //how to connect to the database
 

@@ -1,5 +1,5 @@
 <?php
-require(__DIR__."/../internal-src/api_classes.php");
+require_once(__DIR__."/../internal-src/api_classes.php");
 
 $logInResponse = new apiLogInResponse(true, "abc123", "success");
 
