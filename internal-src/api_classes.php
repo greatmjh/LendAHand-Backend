@@ -55,4 +55,16 @@ class apiProfileInfo {
         return new apiProfileInfo($fullName, $email, $phoneNumber, $bio, (float)$homeLat_str, (float)$homeLong_str);
     }
 }
+
+class apiItem {
+    public $itemId;
+    public $itemTitle;
+    public $quantity;
+
+    function __construct($itemId, $itemTitle, $quantity) {
+        $this->itemId = $itemId;
+        $this->itemTitle = $itemTitle;
+        $this->quantity = $quantity;
+    }
+}
 ?>
