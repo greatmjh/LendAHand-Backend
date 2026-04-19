@@ -4,13 +4,20 @@ CREATE TABLE IF NOT EXISTS users(
 	user_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	email VARCHAR(250) NOT NULL UNIQUE,
 	password TEXT NOT NULL,
-	f_name VARCHAR(25) NOT NULL,
-	l_name VARCHAR(25) NOT NULL,
+	full_name VARCHAR(50) NOT NULL,
 	bio VARCHAR(250) NOT NULL,
 	phone_no VARCHAR(15) NOT NULL,
 	latitude DECIMAL(3,2) NOT NULL,
 	longitude DECIMAL(3,2) NOT NULL
 );
+
+-- refactoring code to edit an existing table to have a full name column instead -- only run this if you have already made a users table with values:
+-- ALTER TABLE users ADD COLUMN full_name VARCHAR(50);
+-- UPDATE users SET full_name = concat(f_name, ' ', l_name);
+-- ALTER TABLE users ALTER COLUMN full_name SET NOT NULL;
+-- ALTER TABLE USERS DROP COLUMN f_name;
+-- ALTER TABLE USERS DROP COLUMN l_name;
+
 
 CREATE TABLE IF NOT EXISTS item_tree(
 	item_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
