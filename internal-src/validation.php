@@ -11,6 +11,8 @@ function validatePhoneNumber($phoneNumber) {
     }
 
     //TODO: bring in validation to make sure this is an actual phone number
+
+    return true;
 }
 
 ?>
