@@ -1,0 +1,12 @@
+{
+    "profileInfo": {
+        "fullName": "John Doe",
+        "email": "john1@example.com",
+        "phoneNumber": "+27123456789",
+        "bio": "just a guy",
+        "homeLat": 0,
+        "homeLong": 0
+    },
+
+    "password": "supersecret123"
+}
