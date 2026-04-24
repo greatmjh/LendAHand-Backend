@@ -31,7 +31,7 @@ if (is_null($userID)) {
 $get_profile_stmt = $dbh->prepare("SELECT email, full_name, phone_no, bio, latitude, longitude FROM USERS WHERE user_id = :userID");
 $get_profile_stmt->execute(["userID" => $userID]);
 
-$resulting_profile = $get_profile_stmt->fetch_assoc();
+$resulting_profile = $get_profile_stmt->fetchAll()[0];
 
 //Creates the ProfileInfo object
 $profile = new apiProfileInfo($resulting_profile['full_name'], $resulting_profile['email'], $resulting_profile['phoneNumber'], $resulting_profile['bio'], $resulting_profile['latitude'], $resulting_profile['longitude']);
