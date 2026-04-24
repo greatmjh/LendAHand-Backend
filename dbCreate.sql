@@ -100,5 +100,6 @@ CREATE TABLE IF NOT EXISTS session_keys (
 	CONSTRAINT fk_user_id
 		FOREIGN KEY (user_id)
 		REFERENCES users(user_id)
+		ON DELETE CASCADE
 );
 
