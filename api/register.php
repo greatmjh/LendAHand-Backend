@@ -50,10 +50,8 @@ if (!$query_success) {
 $userID = $create_user_stmt->fetchAll()[0][0];
 
 //Create a session key
-$get_sesskey_stmt = $dbh->prepare("INSERT INTO session_keys (user_id) VALUES (?) RETURNING session_key");
-$get_sesskey_stmt->execute([$userID]);
 
-$new_session_key = $get_sesskey_stmt->fetchAll()[0][0];
+$new_session_key = makeSessionKey($dbh, $userID);
 
 $response = new apiLogInResponse(true, $new_session_key, "");
 
