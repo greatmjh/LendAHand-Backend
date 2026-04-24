@@ -72,5 +72,13 @@ function sessionKeyToUser($dbh, $sessionKey) {
         return $results[0][0];
     }
 }
+
+//Make a session key given a user ID
+function makeSessionKey($dbh, $userID) {
+    $get_sesskey_stmt = $dbh->prepare("INSERT INTO session_keys (user_id) VALUES (?) RETURNING session_key");
+    $get_sesskey_stmt->execute([$userID]);
+
+    return $get_sesskey_stmt->fetchAll()[0][0];
+}
 ?>
 
