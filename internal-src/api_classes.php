@@ -34,8 +34,7 @@ class apiProfileInfo {
 
     }
 
-    public static function fromJson($json) {
-        $data = json_decode($json);
+    public static function fromJsonData($data) {
         if ($data === null) {
             return null;
         }
