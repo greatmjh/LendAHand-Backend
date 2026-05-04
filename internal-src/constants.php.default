@@ -10,7 +10,7 @@
 
 
 // Leave this alone:
-define("DB_INFO", "pgsql:host=".$pg_ip." port=".$pg_port." user=".$pg_user." password=".$pg_password."dbname=".$pg_dbname);
+define("DB_INFO", "pgsql:host=".$pg_ip." port=".$pg_port." user=".$pg_user." dbname=".$pg_dbname." password=".$pg_password);
 unset($pg_ip);
 unset($pg_port);
 unset($pg_user);
