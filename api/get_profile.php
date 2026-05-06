@@ -34,7 +34,7 @@ $get_profile_stmt->execute(["userID" => $userID]);
 $resulting_profile = $get_profile_stmt->fetchAll()[0];
 
 //Creates the ProfileInfo object
-$profile = new apiProfileInfo($resulting_profile['full_name'], $resulting_profile['email'], $resulting_profile['phoneNumber'], $resulting_profile['bio'], $resulting_profile['latitude'], $resulting_profile['longitude']);
+$profile = new apiProfileInfo($resulting_profile['full_name'], $resulting_profile['email'], $resulting_profile['phone_no'], $resulting_profile['bio'], $resulting_profile['latitude'], $resulting_profile['longitude']);
 
 //Return the profile
 echo (json_encode($profile));
