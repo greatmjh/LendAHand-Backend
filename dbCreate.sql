@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS general_requests(
 
 CREATE TABLE IF NOT EXISTS session_keys (
 	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	user_id uuid,
+	user_id uuid NOT NULL,
 
 	CONSTRAINT fk_user_id
 		FOREIGN KEY (user_id)
