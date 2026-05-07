@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- creates all the tables for the database (note that this doesn't create the database itself)
 CREATE TABLE IF NOT EXISTS users(
@@ -8,7 +9,8 @@ CREATE TABLE IF NOT EXISTS users(
 	bio VARCHAR(250) NOT NULL,
 	phone_no VARCHAR(15) NOT NULL,
 	latitude DECIMAL NOT NULL,
-	longitude DECIMAL NOT NULL
+	longitude DECIMAL NOT NULL,
+	total_donations INTEGER DEFAULT 0
 );
 
 -- refactoring code to edit an existing table to have a full name column instead -- only run this if you have already made a users table with values:
@@ -31,11 +33,12 @@ CREATE TABLE IF NOT EXISTS item_tree(
 
 
 CREATE TABLE IF NOT EXISTS notifications(
-	notifcation_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
+	notification_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	user_id uuid,
 	content TEXT NOT NULL,
-	Read BOOLEAN DEFAULT FALSE NOT NULL,
-	On_click TEXT NOT NULL,
+	read BOOLEAN DEFAULT FALSE NOT NULL,
+	on_click TEXT NOT NULL,
+	heading VARCHAR(25) NOT NULL,
 
  	CONSTRAINT fk_user_id
 		FOREIGN KEY(user_id)
