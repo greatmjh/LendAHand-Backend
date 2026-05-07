@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS users(
 	full_name VARCHAR(50) NOT NULL,
 	bio VARCHAR(250) NOT NULL,
 	phone_no VARCHAR(15) NOT NULL,
-	latitude DECIMAL(3,2) NOT NULL,
-	longitude DECIMAL(3,2) NOT NULL
+	latitude DECIMAL NOT NULL,
+	longitude DECIMAL NOT NULL
 );
 
 -- refactoring code to edit an existing table to have a full name column instead -- only run this if you have already made a users table with values:
