@@ -97,6 +97,21 @@ CREATE TABLE IF NOT EXISTS general_requests(
 	PRIMARY KEY(donee, items_class)
 );
 
+-- to handle deletion of general requests
+CREATE OR REPLACE FUNCTION fn_drop_zero_genreq()
+RETURNS TRIGGER LANGUAGE plpgsql
+AS $$BEGIN
+	IF (NEW.qty <= 0) THEN 
+		DELETE FROM general_requests WHERE donee = NEW.donee AND items_class = NEW.items_class;
+	END IF;
+	RETURN NEW;
+END$$;
+
+CREATE TRIGGER trg_drop_zero_genreq
+AFTER UPDATE ON general_requests
+FOR EACH ROW
+EXECUTE FUNCTION fn_drop_zero_genreq();
+
 CREATE TABLE IF NOT EXISTS session_keys (
 	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	user_id uuid NOT NULL,

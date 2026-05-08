@@ -3,6 +3,7 @@ require_once(__DIR__."/../internal-src/constants.php");
 require_once(__DIR__."/../internal-src/helper_functions.php");
 require_once(__DIR__."/../internal-src/api_classes.php");
 
+
 //Connect to DB and make sure its available
 $dbh = new PDO(DB_INFO);
 
@@ -17,7 +18,7 @@ if (is_null($json_received)) {
     exit_bad_input("Failed to parse JSON");
 }
 
-if (is_null($json_received->{'sessionKey'})) {
+if (is_null($json_received->{'sessionKey'}) || is_null($json_received->{'itemId'}) || is_null($json_received->{'qty'})) {
     exit_bad_input("Missing fields in JSON");
 }
 
@@ -27,23 +28,17 @@ if (is_null($userID)) {
     exit_bad_session_token();
 }
 
-//Selects all the universal requests belonging to one user (donee)
-$get_items_stmt = $dbh->prepare("SELECT g.items_class, g.qty, i.item_name FROM GENERAL_REQUESTS as g
-LEFT JOIN ITEM_TREE as i ON g.items_class = i.item_id WHERE g.donee = :userID");
-$get_items_stmt->execute(["userID" => $userID]);
+$itemId = $json_received->{'itemId'};
+$qty = $json_received->{'qty'};
 
-$resulting_items = $get_items_stmt->fetchAll();
 
-//initialises the empty list
-$list = array();
+//Change the quantity in the table to what the user asked for
+$update_unireq_stmt = $dbh->prepare("INSERT INTO general_requests (donee, items_class, qty) 
+                                    VALUES (:userID, :itemID, :qty) 
+                                    ON CONFLICT (donee, items_class) 
+                                    DO UPDATE SET qty = EXCLUDED.qty");
+$update_unireq_stmt->execute(["userID" => $userID, "itemID" => $itemId, "qty" => $qty]);
 
-//Creates the Items objects and adds them to the list
-foreach ($resulting_items as $row){
-    $item = new apiItem($row['items_class'], $row['item_name'], $row['qty']);
+exit_no_content();
 
-    $list[] = $item;
-}
-
-//Returns the list of items
-echo (json_encode($list));
 ?>
