@@ -38,14 +38,14 @@ $check_request_stmt = $dbh->prepare("SELECT donee, items_donor, qty FROM REQUEST
 $check_request = $check_request_stmt->execute(["requestID" => $json_received->{'requestID'}]);
 $resulting_request = $check_request_stmt->fetchAll()[0];
 if (is_null($check_request)) {
-    exit_internal_error("No such request exists");
+    exit_bad_input("No such request exists");
 }
 
 //links the items_donor uuid from the request with the name of the item in the items_donor table
 $find_name_item_stmt = $dbh->prepare("SELECT item_name FROM ITEMS_DONOR WHERE item_code = :items_donor");
 $find_item_name = $find_name_item_stmt->execute(["items_donor" => $resulting_request['items_donor']]);
 if (is_null($find_item_name)) {
-    exit_internal_error("No such donor item exists");
+    exit_bad_input("No such donor item exists");
 }
 $item_name = $find_name_item_stmt->fetchAll()[0][0];
 
@@ -53,7 +53,7 @@ $item_name = $find_name_item_stmt->fetchAll()[0][0];
 $find_name_donee_stmt = $dbh->prepare("SELECT full_name from USERS WHERE user_id = :donee");
 $find_name_donee = $find_name_donee_stmt->execute(["donee" => $resulting_request['donee']]);
 if (is_null($find_name_donee)) {
-    exit_internal_error("No such donee exists");
+    exit_bad_input("No such donee exists");
 }
 $donee_name = $find_name_donee_stmt->fetchAll()[0][0];
 
