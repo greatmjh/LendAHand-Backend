@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS notifications(
 	read BOOLEAN DEFAULT FALSE NOT NULL,
 	on_click TEXT NOT NULL,
 	heading VARCHAR(25) NOT NULL,
-	notif_time TIMESTAMP,
+	notif_time TIMESTAMP DEFAULT NOW(),
 
  	CONSTRAINT fk_user_id
 		FOREIGN KEY(user_id)
