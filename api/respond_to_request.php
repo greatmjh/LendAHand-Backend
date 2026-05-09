@@ -41,21 +41,21 @@ if (is_null($check_request)) {
     exit_internal_error("No such request exists");
 }
 
-//links the items_donor uuid from the request with the name of the item in the items_donor table
-$find_name_item_stmt = $dbh->prepare("SELECT item_name FROM ITEMS_DONOR WHERE item_code = :items_donor");
-$find_item_name = $find_name_item_stmt->execute(["items_donor" => $resulting_request['items_donor']]);
-if (is_null($find_item_name)) {
+//links the items_donor uuid from the request with the name of the item, and finds the donor uuid in the items_donor table
+$find_item_info_stmt = $dbh->prepare("SELECT donor, item_name FROM ITEMS_DONOR WHERE item_code = :items_donor");
+$find_item_info = $find_item_info_stmt->execute(["items_donor" => $resulting_request['items_donor']]);
+if (is_null($find_item_info)) {
     exit_internal_error("No such donor item exists");
 }
-$item_name = $find_name_item_stmt->fetchAll()[0][0];
+$item_info = $find_item_info_stmt->fetchAll()[0];
 
-//finds the name of the donee
-$find_name_donee_stmt = $dbh->prepare("SELECT full_name from USERS WHERE user_id = :donee");
-$find_name_donee = $find_name_donee_stmt->execute(["donee" => $resulting_request['donee']]);
-if (is_null($find_name_donee)) {
-    exit_internal_error("No such donee exists");
+//finds the name of the donor
+$find_name_donor_stmt = $dbh->prepare("SELECT full_name from USERS WHERE user_id = :donor");
+$find_name_donor = $find_name_donor_stmt->execute(["donor" => $item_info['donor']]);
+if (is_null($find_name_donor)) {
+    exit_internal_error("No such donor exists");
 }
-$donee_name = $find_name_donee_stmt->fetchAll()[0][0];
+$donor_name = $find_name_donor_stmt->fetchAll()[0][0];
 
 //Alters the request's status of 'accepted' in the Requests table
 $update_request_stmt = $dbh->prepare("UPDATE REQUESTS SET accepted = :accepted WHERE request_id = :requestID");
@@ -69,7 +69,7 @@ if (!$query_success) {
 $create_notification_stmt = $dbh->prepare("INSERT INTO NOTIFICATIONS(user_id, content, on_click, heading)
                                             VALUES(:user_id, :content, :on_click, :heading)");
 $notification = $create_notification_stmt->execute(["user_id" => $resulting_request['donee'],
-                                                    "content" => $donee_name . " has " . $status_of_request . " your request for " . $resulting_request['qty'] . " " . $item_name,
+                                                    "content" => $donor_name . " has " . $status_of_request . " your request for " . $resulting_request['qty'] . " " . $item_info['item_name'],
                                                     "on_click" => "outgoingRequests",
                                                     "heading" => "Request " . $status_of_request
                                                     ]);
