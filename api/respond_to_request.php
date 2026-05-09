@@ -53,7 +53,7 @@ $item_info = $find_item_info_stmt->fetchAll()[0];
 $find_name_donor_stmt = $dbh->prepare("SELECT full_name from USERS WHERE user_id = :donor");
 $find_name_donor = $find_name_donor_stmt->execute(["donor" => $item_info['donor']]);
 if (is_null($find_name_donor)) {
-    exit_bad_input("No such donee exists");
+    exit_bad_input("No such donor exists");
 }
 $donor_name = $find_name_donor_stmt->fetchAll()[0][0];
 
