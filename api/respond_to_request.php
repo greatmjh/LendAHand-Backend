@@ -34,11 +34,12 @@ if ($json_received->{'accepted'}){
 }
 
 //checks if the request_id exists in the table and then fetches all the required info for the notification
-$check_request_stmt = $dbh->prepare("SELECT donee, items_donor, qty FROM REQUESTS WHERE request_id = :requestID");
+//and that the request is open
+$check_request_stmt = $dbh->prepare("SELECT donee, items_donor, qty FROM REQUESTS WHERE request_id = :requestID AND req_state = 'open'");
 $check_request = $check_request_stmt->execute(["requestID" => $json_received->{'requestID'}]);
 $resulting_request = $check_request_stmt->fetch(PDO::FETCH_ASSOC);
 if (!$resulting_request) {
-    exit_bad_input("No such request exists");
+    exit_bad_input("No such open request exists");
 }
 
 //links the items_donor uuid from the request with the name of the item, and the donor in the items_donor table
@@ -57,10 +58,10 @@ if (is_null($find_name_donor)) {
 }
 $donor_name = $find_name_donor_stmt->fetchAll()[0][0];
 
-//Alters the request's status of 'accepted' in the Requests table
-$update_request_stmt = $dbh->prepare("UPDATE REQUESTS SET accepted = :accepted WHERE request_id = :requestID");
+//Alters the request's status of 'req_state' in the Requests table
+$update_request_stmt = $dbh->prepare("UPDATE REQUESTS SET req_state = :req_state WHERE request_id = :requestID");
 $query_success = $update_request_stmt->execute(["requestID" => $json_received->{'requestID'},
-                                                "accepted" => (int)$json_received->{'accepted'}]);
+                                                "req_state" => $status_of_request]);
 if (!$query_success) {
     exit_internal_error("Updating status of request SQL failed");
 }

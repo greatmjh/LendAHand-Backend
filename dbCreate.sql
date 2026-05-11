@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS requests(
 	donee uuid NOT NULL,
 	items_donor uuid NOT NULL,
 	qty INTEGER NOT NULL,
-	accepted BOOLEAN DEFAULT FALSE NOT NULL,
+	req_state TEXT CHECK (req_state IN ('open', 'accepted', 'rejected')) DEFAULT 'open',
 
 	CONSTRAINT fk_donee 
 		FOREIGN KEY(donee) 
