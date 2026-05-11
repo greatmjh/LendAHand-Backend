@@ -30,7 +30,19 @@ if (is_null($profileInfo)) {
     exit_bad_input("Missing fields in profile info");
 }
 
-//TODO: prevalidate that the email doesn't already exist so the user gets a nicer error
+//Make sure none of the fields are blank
+if ($json_received->{'password'} == "" || $profileInfo->fullName == "" || $profileInfo->bio == "" || $profileInfo->phone_no = "") {
+    exit_bad_input("Please fill all the input fields");
+}
+
+//Make sure the email doesn't already exist
+$check_email_stmt = $dbh->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
+$check_email_stmt->execute(["email" => $profileInfo->email]);
+if ($check_email_stmt->fetchAll()[0][0] != 0) {
+    $response = new apiLogInResponse(false, '', "Email address already in use.");
+    echo(json_encode($response));
+    exit();
+}
 
 //Now we can actually create the user
 $create_user_stmt = $dbh->prepare("INSERT INTO users (email, password, full_name, bio, phone_no, latitude, longitude) VALUES (:email, crypt(:password, gen_salt('bf')), :full_name, :bio, :phone_no, :latitude, :longitude) RETURNING user_id");
