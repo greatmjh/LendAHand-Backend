@@ -122,3 +122,18 @@ CREATE TABLE IF NOT EXISTS session_keys (
 		ON DELETE CASCADE
 );
 
+-- To do distance calculations
+CREATE OR REPLACE FUNCTION get_distance(lat1 float, lon1 float, lat2 float, lon2 float) 
+RETURNS float AS $$
+DECLARE
+    r float := 6371; -- Earth radius in kilometers
+    dlat float := radians(lat2 - lat1);
+    dlon float := radians(lon2 - lon1);
+    a float;
+    c float;
+BEGIN
+    a := (sin(dlat / 2) ^ 2) + cos(radians(lat1)) * cos(radians(lat2)) * (sin(dlon / 2) ^ 2);
+    c := 2 * atan2(sqrt(a), sqrt(1 - a));
+    RETURN r * c; -- Returns distance in kilometers
+END;
+$$ LANGUAGE plpgsql;
