@@ -63,6 +63,8 @@ foreach ($resulting_requests as $row){
     $request->donorName = $row['full_name'];
     if (!is_null($row['phone_no'])){
         $request->donorPhoneNumber = $row['phone_no'];
+    } else {
+        $request->donorPhoneNumber; //as to not break the parsing
     }
     $request->itemName = $row['item_name'];
     $request->itemQty = $row['qty'];
