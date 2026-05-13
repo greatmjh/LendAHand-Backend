@@ -17,8 +17,14 @@ if (is_null($json_received)) {
     exit_bad_input("Failed to parse JSON");
 }
 
-if (is_null($json_received->{'requestID'}) || is_null($json_received->{'accepted'})) {
+if (is_null($json_received->{'sessionKey'}) || is_null($json_received->{'requestID'}) || is_null($json_received->{'accepted'})) {
     exit_bad_input("Missing fields in JSON");
+}
+
+//Get associated user ID
+$userID = sessionKeyToUser($dbh, $json_received->{'sessionKey'});
+if (is_null($userID)) {
+    exit_bad_session_token();
 }
 
 if (!isValidUuid($json_received->{'requestID'})){
