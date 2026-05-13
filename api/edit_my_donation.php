@@ -27,10 +27,7 @@ if (is_null($userID)) {
     exit_bad_session_token();
 }
 
-//checks if the itemId is a valid uuid
-if (!isValidUuid($json_received->{'itemId'})){
-    exit_bad_input("Invalid item class uuid");
-}
+
 
 //Checking if the input integer is negative
 if ($json_received->{'newQty'} < 0){
@@ -39,6 +36,12 @@ if ($json_received->{'newQty'} < 0){
 
 //Checks if it's a new item or not
 if (is_null($json_received->{'offerID'})){
+
+    //checks if the itemId is a valid uuid
+    if (!isValidUuid($json_received->{'itemId'})){
+        exit_bad_input("Invalid item class uuid");
+    }
+    
     //New item
     //check if the item class exists (i.e. if itemId exists in the item_tree table)
     $check_item_class_stmt = $dbh->prepare("SELECT * FROM ITEM_TREE WHERE item_id = :itemId");
