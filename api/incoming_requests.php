@@ -74,7 +74,7 @@ foreach ($resulting_requests as $row){
     $request->requesterPhoneNumber = $row['phone_no'];
     $request->requesterDistanceKm = $row['distance'];
     $request->itemQty = $row['qty'];
-    $request->fulfilled = $row['req_state'];
+    $request->fulfilled = ($row['req_state'] != 'open');
     $request->itemName = $row['item_name'];
 
     $list[] = $request;
