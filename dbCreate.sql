@@ -73,7 +73,7 @@ AS $$BEGIN
 END$$;
 
 CREATE TRIGGER trg_drop_zero_idonor
-AFTER UPDATE ON general_requests
+AFTER UPDATE ON items_donor
 FOR EACH ROW
 EXECUTE FUNCTION fn_drop_zero_idonor();
 
