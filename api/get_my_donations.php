@@ -34,7 +34,7 @@ if (is_null($userID)) {
     exit_bad_session_token();
 }
 
-$my_donations_stmt = $dbh->prepare("SELECT item_code, item_class, item_name, qty FROM ITEMS_DONOR WHERE donor = :userID");
+$my_donations_stmt = $dbh->prepare("SELECT item_code, item_class, item_name, qty FROM ITEMS_DONOR WHERE donor = :userID AND qty > 0");
 $my_donations = $my_donations_stmt->execute(["userID" => $userID]);
 $resulting_donations = $my_donations_stmt->fetchAll(PDO::FETCH_ASSOC); //check if fetchAll() works for no rows
 if (!$resulting_donations){
