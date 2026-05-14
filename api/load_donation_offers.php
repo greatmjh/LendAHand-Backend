@@ -44,9 +44,10 @@ $load_offers_stmt = $dbh->prepare("SELECT item_code AS offerID, item_class AS it
                                     qty, users.full_name AS donorName, 
                                     get_distance(:lat, :long, users.latitude, users.longitude) AS distanceKm
                                     FROM items_donor INNER JOIN users ON items_donor.donor = users.user_id
+                                    WHERE NOT donor = :currUserID
                                     ORDER BY get_distance(:lat, :long, users.latitude, users.longitude);");
 
-$load_offers_stmt->execute(['lat' => $lat, 'long' => $long]);
+$load_offers_stmt->execute(['lat' => $lat, 'long' => $long, 'currUserID' => $userID]);
 
 $query_result = $load_offers_stmt->fetchAll();
 
