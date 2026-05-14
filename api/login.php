@@ -24,7 +24,7 @@ if (is_null($json_received->{'email'}) || is_null($json_received->{'password'}))
 
 //Get associated userID if email and password are correct
 $auth_check_stmt = $dbh->prepare("SELECT user_id FROM USERS WHERE email = :email AND password = crypt(:password, password);");
-$auth_check_stmt->execute(['email' => $json_received->{'email'}, 'password' => $json_received->{'password'}]);
+$auth_check_stmt->execute(['email' => strtolower($json_received->{'email'}), 'password' => $json_received->{'password'}]);
 
 $resulting_user_id = $auth_check_stmt->fetchAll()[0][0];
 

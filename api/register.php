@@ -37,7 +37,7 @@ if ($json_received->{'password'} == "" || $profileInfo->fullName == "" || $profi
 
 //Make sure the email doesn't already exist
 $check_email_stmt = $dbh->prepare("SELECT COUNT(*) FROM users WHERE email = :email");
-$check_email_stmt->execute(["email" => $profileInfo->email]);
+$check_email_stmt->execute(["email" => strtolower($profileInfo->email)]);
 if ($check_email_stmt->fetchAll()[0][0] != 0) {
     $response = new apiLogInResponse(false, '', "Email address already in use.");
     echo(json_encode($response));
@@ -47,7 +47,7 @@ if ($check_email_stmt->fetchAll()[0][0] != 0) {
 //Now we can actually create the user
 $create_user_stmt = $dbh->prepare("INSERT INTO users (email, password, full_name, bio, phone_no, latitude, longitude) VALUES (:email, crypt(:password, gen_salt('bf')), :full_name, :bio, :phone_no, :latitude, :longitude) RETURNING user_id");
 
-$query_success = $create_user_stmt->execute(['email' => $profileInfo->email, 
+$query_success = $create_user_stmt->execute(['email' => strtolower($profileInfo->email), 
                             'password' => $json_received->{'password'},
                             'full_name' => $profileInfo->fullName,
                             'bio' => $profileInfo->bio,
