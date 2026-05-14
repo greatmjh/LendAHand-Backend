@@ -19,13 +19,13 @@ INSERT INTO item_tree (item_id, item_name, parent_id) VALUES
 
 INSERT INTO item_tree (item_name, parent_id) VALUES
 -- Food
-    ('Nonperishable', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
-    ('Perishable', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
-    ('Frozen foods', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
+    ('Nonperishable food', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
+    ('Perishable food', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
+    ('Frozen food', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
     ('Readymade meals', '32fb6db8-5af9-49c9-9da0-43628299d7af'),
 -- Clothes
-    ('Summer', '4211f5a8-604d-4b5e-aa2b-ed0f089f12c9'),
-    ('Winter', '4211f5a8-604d-4b5e-aa2b-ed0f089f12c9'),
+    ('Summer clothes', '4211f5a8-604d-4b5e-aa2b-ed0f089f12c9'),
+    ('Winter clothes', '4211f5a8-604d-4b5e-aa2b-ed0f089f12c9'),
 -- Hygiene
     ('Soap', '96b02b76-46e1-410c-9005-047cbfde5ce9'),
     ('Toothbrush', '96b02b76-46e1-410c-9005-047cbfde5ce9'),
@@ -35,10 +35,10 @@ INSERT INTO item_tree (item_name, parent_id) VALUES
     ('Sexual health', '96b02b76-46e1-410c-9005-047cbfde5ce9'),
     ('Toilet paper', '96b02b76-46e1-410c-9005-047cbfde5ce9'), 
 -- Data+Airtime
-    ('Vodacom', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
-    ('MTN', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
-    ('Telkom', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
-    ('Other', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
+    ('Vodacom airtime/data', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
+    ('MTN airtime/data', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
+    ('Telkom airtime/data', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
+    ('Other airtime/data', '7f7d4d2f-9e56-4729-bf2f-ee75e77822a6'),
 -- Electronics
     ('Appliances', '417e3621-cedc-4d57-a28a-cf1006f55698'),
     ('Gadgets', '417e3621-cedc-4d57-a28a-cf1006f55698'),

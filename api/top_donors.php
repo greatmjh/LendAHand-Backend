@@ -34,7 +34,7 @@ if (is_null($userID)) {
 }
 
 //Select user from the db ordered by total_donations
-$top_donors_stmt = $dbh->prepare("SELECT full_name, total_donations FROM USERS ORDER BY total_donations DESC");
+$top_donors_stmt = $dbh->prepare("SELECT full_name, total_donations FROM USERS WHERE total_donations > 0 ORDER BY total_donations DESC");
 $top_donors_stmt->execute();
 
 $resulting_top_donors = $top_donors_stmt->fetchAll();
