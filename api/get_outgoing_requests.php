@@ -50,7 +50,8 @@ $my_requests_stmt = $dbh->prepare("SELECT r.request_id, u.full_name, i.item_name
 $my_requests = $my_requests_stmt->execute(["userID" => $userID]);
 $resulting_requests = $my_requests_stmt->fetchAll(PDO::FETCH_ASSOC); //check if fetchAll() works for no rows
 if (!$resulting_requests){
-    exit_bad_input("The donee has made no requests");
+    echo(json_encode(array()));
+    exit();
 }
 
 //initialises the empty list

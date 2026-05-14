@@ -38,7 +38,8 @@ $my_donations_stmt = $dbh->prepare("SELECT item_code, item_class, item_name, qty
 $my_donations = $my_donations_stmt->execute(["userID" => $userID]);
 $resulting_donations = $my_donations_stmt->fetchAll(PDO::FETCH_ASSOC); //check if fetchAll() works for no rows
 if (!$resulting_donations){
-    exit_bad_input("The donor has no items up for donation");
+    echo(json_encode(array()));
+    exit();
 }
 
 //initialises the empty list
