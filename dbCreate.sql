@@ -34,12 +34,12 @@ CREATE TABLE IF NOT EXISTS item_tree(
 
 CREATE TABLE IF NOT EXISTS notifications(
 	notification_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	user_id uuid,
+	user_id uuid NOT NULL,
 	content TEXT NOT NULL,
 	read BOOLEAN DEFAULT FALSE NOT NULL,
 	on_click TEXT NOT NULL,
 	heading VARCHAR(25) NOT NULL,
-	notif_time TIMESTAMP DEFAULT NOW(),
+	notif_time TIMESTAMP DEFAULT NOW() NOT NULL,
 
  	CONSTRAINT fk_user_id
 		FOREIGN KEY(user_id)
@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS items_donor(
 	donor uuid NOT NULL,
 	item_class uuid NOT NULL,
 	item_name VARCHAR(50) NOT NULL,
-	qty INTEGER DEFAULT 0 NOT NULL,
+	qty INTEGER DEFAULT 1 NOT NULL,
 
 	CONSTRAINT fk_donor 
 		FOREIGN KEY(donor) 
@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS requests(
 	request_id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
 	donee uuid NOT NULL,
 	items_donor uuid NOT NULL,
-	qty INTEGER NOT NULL,
+	qty INTEGER DEFAULT 1 NOT NULL,
 	req_state TEXT CHECK (req_state IN ('open', 'accepted', 'rejected')) DEFAULT 'open',
 
 	CONSTRAINT fk_donee 
