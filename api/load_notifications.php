@@ -37,7 +37,7 @@ if (is_null($userID)) {
 }
 
 //Selects all the notifications belonging to one user
-$get_notifications_stmt = $dbh->prepare("SELECT heading, content, on_click, read, notification_id, to_char(notif_time, 'YYYY-MM-DD\"T\"HH24:MI:SS') AS notif_time FROM NOTIFICATIONS where user_id = :userID ORDER BY notif_time DESC");
+$get_notifications_stmt = $dbh->prepare("SELECT heading, content, on_click, read, notification_id, to_char(notif_time AT TIME ZONE 'Africa/Johannesburg', 'YYYY-MM-DD\"T\"HH24:MI:SS') AS notif_time FROM NOTIFICATIONS where user_id = :userID ORDER BY notif_time DESC");
 $get_notifications_stmt->execute(["userID" => $userID]);
 
 $resulting_notifications = $get_notifications_stmt->fetchAll();
