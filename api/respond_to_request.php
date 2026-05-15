@@ -64,6 +64,15 @@ if (is_null($find_name_donor)) {
 }
 $donor_name = $find_name_donor_stmt->fetchAll()[0][0];
 
+//Drops qty of items_donor
+if ($json_received->{'accepted'}) {
+    $drop_qty_stmt = $dbh->prepare("UPDATE items_donor SET qty = qty - (SELECT qty FROM requests WHERE request_id = :requestID) WHERE item_code = (SELECT items_donor FROM requests WHERE request_id = :requestID)");
+    $query_success = $drop_qty_stmt->execute(["requestID" => $json_received->{'requestID'}, "requestID" => $json_received->{'requestID'}]);
+    if (!$query_success) {
+        exit_internal_error("Updating quantity of items_donor failed.");
+    }
+}
+
 //Alters the request's status of 'req_state' in the Requests table
 $update_request_stmt = $dbh->prepare("UPDATE REQUESTS SET req_state = :req_state WHERE request_id = :requestID");
 $query_success = $update_request_stmt->execute(["requestID" => $json_received->{'requestID'},
@@ -71,6 +80,7 @@ $query_success = $update_request_stmt->execute(["requestID" => $json_received->{
 if (!$query_success) {
     exit_internal_error("Updating status of request SQL failed");
 }
+
 
 //Create notification for the donee
 $create_notification_stmt = $dbh->prepare("INSERT INTO NOTIFICATIONS(user_id, content, on_click, heading)
