@@ -64,12 +64,17 @@ if (is_null($find_name_donor)) {
 }
 $donor_name = $find_name_donor_stmt->fetchAll()[0][0];
 
-//Drops qty of items_donor
+//Drops qty of items_donor and pushes top donor stats
 if ($json_received->{'accepted'}) {
-    $drop_qty_stmt = $dbh->prepare("UPDATE items_donor SET qty = qty - (SELECT qty FROM requests WHERE request_id = :requestID) WHERE item_code = (SELECT items_donor FROM requests WHERE request_id = :requestID)");
+    $drop_qty_stmt = $dbh->prepare("UPDATE items_donor SET qty = GREATEST(0, (qty - (SELECT qty FROM requests WHERE request_id = :requestID))) WHERE item_code = (SELECT items_donor FROM requests WHERE request_id = :requestID)");
     $query_success = $drop_qty_stmt->execute(["requestID" => $json_received->{'requestID'}, "requestID" => $json_received->{'requestID'}]);
     if (!$query_success) {
         exit_internal_error("Updating quantity of items_donor failed.");
+    }
+    $update_total_donations_stmt = $dbh->prepare("UPDATE users SET total_donations = total_donations + (SELECT qty FROM requests WHERE request_id = :requestID) WHERE user_id = (SELECT items_donor.donor FROM requests INNER JOIN items_donor ON requests.items_donor = items_donor.item_code WHERE request_id = :requestID)");
+    $query_success = $update_total_donations_stmt->execute(["requestID" => $json_received->{'requestID'}, "requestID" => $json_received->{'requestID'}]);
+    if (!$query_success) {
+        exit_internal_error("Updating top donors failed.");
     }
 }
 
