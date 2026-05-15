@@ -46,7 +46,8 @@ $my_requests_stmt = $dbh->prepare("SELECT r.request_id, u.full_name, i.item_name
                                     LEFT JOIN ITEMS_DONOR as i ON r.items_donor = i.item_code
                                     LEFT JOIN USERS AS u ON i.donor = u.user_id
 
-                                    WHERE r.donee = :userID");
+                                    WHERE r.donee = :userID
+                                    ORDER BY last_activity DESC");
 $my_requests = $my_requests_stmt->execute(["userID" => $userID]);
 $resulting_requests = $my_requests_stmt->fetchAll(PDO::FETCH_ASSOC); //check if fetchAll() works for no rows
 if (!$resulting_requests){

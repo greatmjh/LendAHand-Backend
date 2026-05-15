@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS requests(
 	items_donor uuid NOT NULL,
 	qty INTEGER DEFAULT 1 NOT NULL,
 	req_state TEXT CHECK (req_state IN ('open', 'accepted', 'rejected')) DEFAULT 'open',
+	last_activity TIMESTAMP DEFAULT NOW() NOT NULL,
 
 	CONSTRAINT fk_donee 
 		FOREIGN KEY(donee) 
@@ -89,6 +90,18 @@ CREATE TABLE IF NOT EXISTS requests(
 		FOREIGN KEY(items_donor) 
 		REFERENCES items_donor(item_code)
 );
+
+CREATE OR REPLACE FUNCTION fn_update_last_activity()
+RETURNS TRIGGER LANGUAGE plpgsql
+AS $$BEGIN
+	NEW.last_activity := NOW();
+	RETURN NEW;
+END$$;
+
+CREATE TRIGGER trg_update_last_activity
+BEFORE UPDATE ON requests
+FOR EACH ROW
+EXECUTE FUNCTION fn_update_last_activity();
 
 
 CREATE TABLE IF NOT EXISTS general_requests(
