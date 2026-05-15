@@ -62,20 +62,6 @@ CREATE TABLE IF NOT EXISTS items_donor(
 		FOREIGN KEY(item_class) 
 		REFERENCES item_tree(item_id)
 );
--- to handle deletion of items for donation
-CREATE OR REPLACE FUNCTION fn_drop_zero_idonor()
-RETURNS TRIGGER LANGUAGE plpgsql
-AS $$BEGIN
-	IF (NEW.qty <= 0) THEN 
-		DELETE FROM items_donor WHERE item_code = NEW.item_code;
-	END IF;
-	RETURN NEW;
-END$$;
-
-CREATE TRIGGER trg_drop_zero_idonor
-AFTER UPDATE ON items_donor
-FOR EACH ROW
-EXECUTE FUNCTION fn_drop_zero_idonor();
 
 CREATE TABLE IF NOT EXISTS session_keys (
 	session_key uuid PRIMARY KEY DEFAULT gen_random_uuid(),
